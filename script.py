@@ -4,6 +4,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 import time
 from output import Output
 options = Options()
@@ -18,7 +20,9 @@ prefs = {
 options.add_argument("--lang=en")
 options.add_experimental_option("prefs", prefs)
 # Initialize Chrome with the specified options
-driver = webdriver.Chrome(executable_path=DRIVER_PATH, options=options)
+service = Service(executable_path='./chromedriver.exe')
+driver = webdriver.Chrome(service=service, options=options)
+# driver = webdriver.Chrome(executable_path=DRIVER_PATH, options=options)
 
 # Navigate to the Nintendo website
 driver.get("https://www.sharbatly.club/collections/all")
@@ -33,7 +37,7 @@ target_class = "footer"
 start_time = time.time()
 
 # Set the maximum duration of the loop (5 minutes = 300 seconds)
-max_duration = 250
+max_duration = 180
 
 while True:
     # Scroll down the page
@@ -50,15 +54,20 @@ while True:
 # If the element is no longer visible, continue scrolling down
 while True:
     # Scroll down the page
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    # driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    actions = ActionChains(driver)
+    # Scroll down one page
+    actions.send_keys(Keys.PAGE_DOWN).perform()
+    # Scroll to the bottom of the page
+    actions.send_keys(Keys.END).perform()
 
     # Check if the target element reappears
     try:
         element = driver.find_element(By.CLASS_NAME, target_class)
         elapsed_time = time.time() - start_time
-        # Check if 5 minutes have elapsed
+        # Check if Time has elapsed
         if elapsed_time >= max_duration:
-            print("5 minutes have elapsed. Breaking the loop.")
+            print("Time has elapsed. Breaking the loop.")
             break
     except:
         print("Element with class {} disappeared. Continuing scroll.".format(target_class))
@@ -67,7 +76,8 @@ while True:
 element = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "product-list")))
 
 # Find all elements within the div
-elements_in_product_list = element.find_elements_by_xpath(".//*")
+# elements_in_product_list = element.find_elements_by_xpath(".//*")
+elements_in_product_list = element.find_elements(By.XPATH, ".//*")
 
 
 # Save the HTML code of the elements to a text file

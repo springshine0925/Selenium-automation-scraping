@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import csv
 import re
 import chardet
-
+from datetime import datetime, timedelta
 
 def Output():
 
@@ -22,16 +22,19 @@ def Output():
             product_name = product.find('span', {'class': 'title'}).text.strip()
             current_price = product.find('span', {'class': 'current_price'}).text.strip()
             was_price = product.find('span', {'class': 'was_price'}).text.strip()
-
-            for i, char in enumerate(product_name):
-                if char.isdigit() and char != "e":
-                    break
-
+            if any(char.isdigit() and char != "e" for char in product_name):
+                for i, char in enumerate(product_name):
+                    if char.isdigit() and char != "e":
+                        name = product_name[:i].strip()
+                        amount = product_name[i:].strip()
+                        break
+            else:
+                name = product_name
+                amount = "count"
             # Extract the name and amount
-            name = product_name[:i].strip()
+            
             if name.endswith(','):
                     name = name[:-1]
-            amount = product_name[i:].strip()
             if amount.endswith(','):
                     amount = amount[:-1]
 
@@ -53,19 +56,25 @@ def Output():
             else:
                 price2 = ""
                 currency2 = ""
-
+                
+            iso_time = datetime.now().isoformat()
+            # Convert the ISO time to Saudi Arabia time
+            saudi_time_offset = timedelta(hours=3)  # Saudi Arabia is 3 hours ahead of UTC
+            saudi_time = datetime.fromisoformat(iso_time) + saudi_time_offset
             item = {
                 'product_name': name,
                 'weight_unit': amount,
                 'official_price': price2,
                 'offer_price': price1,
-                'currency': currency1
+                'currency': currency1,
+                'date': saudi_time.strftime('%Y-%m-%d'),
+                'from': 'https://www.sharbatly.club'
             }
             if item not in PRODUCTS:
                 PRODUCTS.append(item)
 
-        with open("sharbatly.csv", "w", newline="") as csvfile:
-            fieldnames = ["Product Name", "Official Price", "Weight/Unit", "Offer Price", "Currency"]
+        with open("sharbatly.csv", "w", newline="", encoding="utf-8") as csvfile:
+            fieldnames = ["Product Name", "Official Price", "Weight/Unit", "Offer Price", "Currency", "Date", "From"]
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
             writer.writeheader()
@@ -75,7 +84,9 @@ def Output():
                     "Official Price": item["official_price"],
                     "Weight/Unit": item["weight_unit"],
                     "Offer Price": item["offer_price"],
-                    "Currency": item["currency"]
+                    "Currency": item["currency"],
+                    "Date": item["date"],
+                    "From": item["from"]
                 })
 
                 # https://www.sharbatly.club/collections/all
