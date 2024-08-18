@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import csv
 import re
 import chardet
+from datetime import datetime, timedelta
+
 
 def Output3():
     
@@ -79,12 +81,18 @@ def Output3():
                 else:
                     numeric_part = ''
                 # Collect product information
+                iso_time = datetime.now().isoformat()
+                # Convert the ISO time to Saudi Arabia time
+                saudi_time_offset = timedelta(hours=3)  # Saudi Arabia is 3 hours ahead of UTC
+                saudi_time = datetime.fromisoformat(iso_time) + saudi_time_offset
                 item = {
                     'product_name': name,
                     'weight_unit': amount,
                     'official_price': numeric_part,
                     'offer_price': price,
-                    'currency': currency
+                    'currency': currency,
+                    'date': saudi_time.strftime('%Y-%m-%d'),
+                    'from': 'http://www.carrefourksa.com'
                 }
                 PRODUCTS.append(item)
             except Exception as e:
@@ -92,7 +100,7 @@ def Output3():
 
         # Write to CSV
         with open("carrefourksa.csv", "w", newline="", encoding="utf-8") as csvfile:
-            fieldnames = ["Product Name", "Official Price", "Weight/Unit", "Offer Price", "Currency"]
+            fieldnames = ["Product Name", "Official Price", "Weight/Unit", "Offer Price", "Currency", "Date", "From"]
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
             writer.writeheader()
@@ -102,7 +110,9 @@ def Output3():
                     "Official Price": item["official_price"],
                     "Weight/Unit": item["weight_unit"],
                     "Offer Price": item["offer_price"],
-                    "Currency": item["currency"]
+                    "Currency": item["currency"],
+                    "Date": item["date"],
+                    "From": item["from"]
                 })
     else:
         print("No HTML content foundt in the file.")
