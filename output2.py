@@ -81,6 +81,7 @@ def Output2(flag):
                     "Date": item["date"],
                     "From": item["from"]
                 })
+        print(f"Data saved to {output_file} .....")
     else:
         print("No HTML content found in the file.")
 

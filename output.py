@@ -88,7 +88,7 @@ def Output():
                     "Date": item["date"],
                     "From": item["from"]
                 })
-
+        print('Data saved to sharbatly.csv ....')
                 # https://www.sharbatly.club/collections/all
                 # 
                 #  https://www.sharbatly.club/ar

@@ -94,7 +94,8 @@ def Output3():
                     'date': saudi_time.strftime('%Y-%m-%d'),
                     'from': 'http://www.carrefourksa.com'
                 }
-                PRODUCTS.append(item)
+                if item not in PRODUCTS:
+                    PRODUCTS.append(item)
             except Exception as e:
                 print(f"An error occurred while processing a product: {e}")
 
@@ -114,6 +115,7 @@ def Output3():
                     "Date": item["date"],
                     "From": item["from"]
                 })
+        print("Data saved to carrfourksa.csv........")
     else:
         print("No HTML content foundt in the file.")
 

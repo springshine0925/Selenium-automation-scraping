@@ -64,5 +64,5 @@ with open("tamimimarkets.csv", "w", newline="") as csvfile:
             "Date": item["date"],
             "From": item["from"]
         })
-
+print('Data saved to tamimimarkets.csv ....')
 # https://shop.tamimimarkets.com/ar/category/fruits--vegetables
