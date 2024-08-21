@@ -4,6 +4,7 @@ import re
 import chardet
 from datetime import datetime, timedelta
 from googletrans import Translator
+import os
 
 def Output2(flag):
     if flag == "first":
@@ -82,6 +83,10 @@ def Output2(flag):
                     "From": item["from"]
                 })
         print(f"Data saved to {output_file} .....")
+        if os.path.exists(input_file):
+        # Remove the file
+            os.remove(input_file)
+            print(f"{input_file} has been deleted.")
     else:
         print("No HTML content found in the file.")
 

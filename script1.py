@@ -8,6 +8,10 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 import time
 from output2 import Output2
+# from seleniumbase import SB
+
+# with SB(uc=True, test=True) as sb:
+#     url = ""
 options = Options()
 options.add_experimental_option("detach", True)
 
@@ -26,7 +30,10 @@ driver = webdriver.Chrome(service=service, options=options)
 driver.get("https://aloqailat.com/en/category/DPndd")
 time.sleep(5)
 wait = WebDriverWait(driver, 10)
-
+chapcha_div = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'spacer')))
+chapcha_check = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[type='checkbox]")))
+chapcha_check.click()
+time.sleep(5)
 # Scroll down the page until an element with the specific class appears
 target_class = "testimonails-listing"
 start_time = time.time()
@@ -77,7 +84,7 @@ with open("aloqailat-1.txt", "w", encoding="utf-8") as file:
 # Close the browser session cleanly to free up system resources
 time.sleep(2)
 Output2("first")
-time.sleep(10)
+time.sleep(5)
 
 driver.quit()
 

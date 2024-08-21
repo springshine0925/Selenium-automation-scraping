@@ -1,21 +1,24 @@
 from bs4 import BeautifulSoup
 import csv
+import os
 import re
 import chardet
 from datetime import datetime, timedelta
 
 def Output():
-
+    print('calling output function....')
+    file_name = 'sharbatly.txt'
     PRODUCTS = []
     # Read the HTML content
-    with open('sharbatly.txt', 'rb') as file:
+    with open(file_name, 'rb') as file:
         result = chardet.detect(file.read())
         encoding = result['encoding']
 
-    with open('sharbatly.txt', 'r', encoding=encoding) as file:
+    with open(file_name, 'r', encoding=encoding) as file:
         html_content = file.read()
 
     if html_content:
+        print("analyzing....")
         soup = BeautifulSoup(html_content, 'html.parser')
         product_details = soup.find_all('div', {'class': 'product-details'})
         for product in product_details:
@@ -92,6 +95,10 @@ def Output():
                 # https://www.sharbatly.club/collections/all
                 # 
                 #  https://www.sharbatly.club/ar
+    if os.path.exists(file_name):
+    # Remove the file
+        os.remove(file_name)
+        print(f"{file_name} has been deleted.")
 
     else:
         print("input error for analysis.")

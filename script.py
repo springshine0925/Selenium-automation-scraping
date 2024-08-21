@@ -9,7 +9,8 @@ from selenium.webdriver.common.keys import Keys
 import time
 from output import Output
 options = Options()
-options.add_experimental_option("detach", True)
+options.add_experimental_option("detach", False)
+options.add_argument("--headless")
 
 s = Service(f"chromedriver.exe")
 DRIVER_PATH = 'chromedriver.exe'
@@ -37,7 +38,7 @@ target_class = "footer"
 start_time = time.time()
 
 # Set the maximum duration of the loop (5 minutes = 300 seconds)
-max_duration = 180
+max_duration = 150
 
 while True:
     # Scroll down the page
@@ -88,7 +89,7 @@ with open("sharbatly.txt", "w", encoding="utf-8") as file:
 # Close the browser session cleanly to free up system resources
 time.sleep(2)
 Output()
-time.sleep(10)
+time.sleep(5)
 
 driver.quit()
 

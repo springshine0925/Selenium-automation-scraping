@@ -3,6 +3,7 @@ import csv
 import re
 import chardet
 from datetime import datetime, timedelta
+import os
 
 
 def Output3():
@@ -116,6 +117,11 @@ def Output3():
                     "From": item["from"]
                 })
         print("Data saved to carrfourksa.csv........")
+        file_name = 'carrefourksa.txt'
+        if os.path.exists(file_name):
+        # Remove the file
+            os.remove(file_name)
+            print(f"{file_name} has been deleted.")
     else:
         print("No HTML content foundt in the file.")
 
