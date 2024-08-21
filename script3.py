@@ -27,8 +27,9 @@ def setup_driver():
 def accept_cookies(driver):
     wait = WebDriverWait(driver, 10)
     try:
-        accept_button = driver.find_element(By.ID, 'onetrust-accept-btn-handler')
+        # accept_button = driver.find_element(By.ID, 'onetrust-accept-btn-handler')
         accept_button =  wait.until(EC.visibility_of_element_located((By.ID, 'onetrust-accept-btn-handler')))
+        time.sleep(1)
         accept_button.click()
         print("Accept button clicked.")
         time.sleep(1)
@@ -42,6 +43,7 @@ def scroll_and_click_more(driver, actions, target_class):
             EC.visibility_of_element_located((By.CLASS_NAME, target_class))
         )
         driver.execute_script("arguments[0].scrollIntoView();", element)
+        time.sleep(1)
         element.click()
         print(f"Button with class {target_class} found and clicked.")
         return True
