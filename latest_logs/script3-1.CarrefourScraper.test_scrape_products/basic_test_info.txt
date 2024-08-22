@@ -1,0 +1,45 @@
+script3-1.py::CarrefourScraper::test_scrape_products
+--------------------------------------------------------------------
+Last Page: https://www.carrefourksa.com/mafsau/en/c/FKSA1660000?currentPage=6&filter=&pageSize=60&sortBy=relevance
+ Duration: 199.42s
+  Browser: Chrome 127.0.6533.120
+   Driver: chromedriver 127.0.6533.119
+Timestamp: 1724311062  (Unix Timestamp)
+     Date: Thursday, August 22, 2024
+     Time: 12:17:42 AM  (Pacific Daylight Time, UTC-07:00)
+--------------------------------------------------------------------
+Traceback:
+  File "C:\Users\Administrator\Documents\scripts\Selenium-automation-scraping\script3-1.py", line 42, in test_scrape_products
+    file.write(elem.get_attribute("outerHTML") + "\n")
+  File "c:\users\administrator\appdata\local\programs\python\python38\lib\site-packages\selenium\webdriver\remote\webelement.py", line 178, in get_attribute
+    attribute_value = self.parent.execute_script(
+  File "c:\users\administrator\appdata\local\programs\python\python38\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 414, in execute_script
+    return self.execute(command, {"script": script, "args": converted_args})["value"]
+  File "c:\users\administrator\appdata\local\programs\python\python38\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 354, in execute
+    self.error_handler.check_response(response)
+  File "c:\users\administrator\appdata\local\programs\python\python38\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+Exception: Message: stale element reference: stale element not found in the current frame
+  (Session info: chrome=127.0.6533.120); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#stale-element-reference-exception
+Stacktrace:
+	GetHandleVerifier [0x00007FF6A6E39642+30946]
+	(No symbol) [0x00007FF6A6DEE3D9]
+	(No symbol) [0x00007FF6A6CE6FDA]
+	(No symbol) [0x00007FF6A6CEDA57]
+	(No symbol) [0x00007FF6A6CF0058]
+	(No symbol) [0x00007FF6A6D7BD7B]
+	(No symbol) [0x00007FF6A6D5CA6A]
+	(No symbol) [0x00007FF6A6D7B041]
+	(No symbol) [0x00007FF6A6D5C813]
+	(No symbol) [0x00007FF6A6D2A6E5]
+	(No symbol) [0x00007FF6A6D2B021]
+	GetHandleVerifier [0x00007FF6A6F6F84D+1301229]
+	GetHandleVerifier [0x00007FF6A6F7BDC7+1351783]
+	GetHandleVerifier [0x00007FF6A6F72A13+1313971]
+	GetHandleVerifier [0x00007FF6A6E6DD16+245686]
+	(No symbol) [0x00007FF6A6DF759F]
+	(No symbol) [0x00007FF6A6DF3814]
+	(No symbol) [0x00007FF6A6DF39A2]
+	(No symbol) [0x00007FF6A6DEA3FF]
+	BaseThreadInitThunk [0x00007FFCDB4A7374+20]
+	RtlUserThreadStart [0x00007FFCDC27CC91+33]

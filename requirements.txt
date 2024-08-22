@@ -2,6 +2,8 @@
 googletrans==4.0.0-rc1
 chardet
 beautifulsoup4
+selenium
+seleniumbase
 
 
 

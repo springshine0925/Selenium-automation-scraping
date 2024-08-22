@@ -34,24 +34,18 @@ class CarrefourScraper(BaseCase):
             except Exception as e:
                 print(f"Error or button with class {target_class} not found: {e}") 
         # Scrape the product data
-        self.scrape_html("carrefourksa.txt")
         self.sleep(3)
-        # Execute additional logic from output3
+        filename= "carrefourksa.txt"
+        # body =self.wait_for_element_visible("body")
+        elements = self.find_elements(".css-14tfefh *")
+        with open(filename, "w", encoding="utf-8") as file:
+            for elem in elements:
+                file.write(elem.get_attribute("outerHTML") + "\n")
+        print(f"HTML output saved to {filename}.")
+        self.sleep(1)
         Output3()
-
-        # Clean up
-        self.sleep(10)
-
-    def scrape_html(self, filename):
-        try:
-            elements = self.find_elements(".css-14tfefh *")
-            with open(filename, "w", encoding="utf-8") as file:
-                for elem in elements:
-                    file.write(elem.get_attribute("outerHTML") + "\n")
-            print(f"HTML output saved to {filename}.")
-        except Exception as e:
-            print(f"Error while scraping HTML: {e}")
-
+        self.sleep(5)
+        # self.quit()
 # if __name__ == "__main__":
 #     from seleniumbase import run
 #     run(CarrefourScraper)

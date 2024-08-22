@@ -1,6 +1,7 @@
 import requests
 import csv
 from datetime import datetime, timedelta
+import time
 
 PRODUCTS=[]
 i=0
@@ -65,4 +66,5 @@ with open("tamimimarkets.csv", "w", newline="") as csvfile:
             "From": item["from"]
         })
 print('Data saved to tamimimarkets.csv ....')
+time.sleep(2)
 # https://shop.tamimimarkets.com/ar/category/fruits--vegetables

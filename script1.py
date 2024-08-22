@@ -28,7 +28,7 @@ driver = webdriver.Chrome(service=service, options=options)
 
 # Navigate to the Nintendo website
 driver.get("https://aloqailat.com/en/category/DPndd")
-time.sleep(5)
+time.sleep(10)
 wait = WebDriverWait(driver, 10)
 chapcha_div = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'spacer')))
 chapcha_check = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[type='checkbox]")))
