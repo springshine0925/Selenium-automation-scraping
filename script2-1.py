@@ -22,15 +22,12 @@ options.add_experimental_option("prefs", prefs)
 service = Service(executable_path='./chromedriver.exe')
 driver = webdriver.Chrome(service=service, options=options)
 
-# Navigate to the Nintendo website
 driver.get("https://aloqailat.com/category/xymwG")
 time.sleep(5)
 wait = WebDriverWait(driver, 10)
-# Scroll down the page until an element with the specific class appears
 target_class = "testimonails-listing"
 start_time = time.time()
 
-# Set the maximum duration of the loop (5 minutes = 300 seconds)
 max_duration = 25
 
 while True:

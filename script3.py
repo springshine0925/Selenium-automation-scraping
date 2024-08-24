@@ -74,9 +74,23 @@ def main():
     max_duration = 480  # 8 minutes
 
     while time.time() - start_time < max_duration:
-        loaded_new_content = scroll_and_click_more(driver, actions, target_class)
-        if not loaded_new_content:
-            break
+       try:
+            element = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CLASS_NAME, "css-14tfefh")))
+            
+            if element.find_elements(By.CLASS_NAME, target_class):
+                element_to_click = element.find_element(By.CLASS_NAME, target_class)
+                driver.execute_script("arguments[0].scrollIntoView();", element_to_click)
+                time.sleep(2)  # Consider using explicit wait instead of time.sleep
+                element_to_click.click()
+                print(f"Button with class {target_class} found and clicked.")
+                time.sleep(4)  # Consider using explicit wait instead of time.sleep
+            else:
+                break
+       except Exception as e:
+            print(f"Error or button with class {target_class} not found: {e}")
+        # loaded_new_content = scroll_and_click_more(driver, actions, target_class)
+        # if not loaded_new_content:
+        #     break
 
     scrape_html(driver, "carrefourksa.txt")
 

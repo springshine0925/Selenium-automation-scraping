@@ -4,7 +4,7 @@ from output2 import Output2
 
 with SB(uc=True, test=True,  incognito=True, locale_code="en") as sb:
     url = "https://aloqailat.com/en/category/DPndd"
-    sb.uc_open_with_reconnect(url, reconnect_time=2)
+    sb.uc_open_with_reconnect(url, reconnect_time=4)
     sb.sleep(5)
     sb.uc_gui_handle_captcha()
     # sb.uc_gui_click_captcha()  # Only if needed
