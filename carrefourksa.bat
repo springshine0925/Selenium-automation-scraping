@@ -1,1 +1,1 @@
-pytest script3-1.py --uc
+pytest script3.py --uc

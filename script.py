@@ -76,7 +76,6 @@ while True:
 element = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "product-list")))
 
 # Find all elements within the div
-# elements_in_product_list = element.find_elements_by_xpath(".//*")
 elements_in_product_list = element.find_elements(By.XPATH, ".//*")
 
 

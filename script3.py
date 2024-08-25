@@ -1,106 +1,60 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
+from seleniumbase import BaseCase
 import time
-from selenium.webdriver.chrome.options import Options
 from output3 import Output3
+BaseCase.main(__name__, __file__)
 
-def setup_driver():
-    options = Options()
-    options.add_argument("--ignore-certificate-errors")
-    options.add_argument("--ignore-ssl-errors")
-    options.add_experimental_option("detach", True)
-    options.add_argument("--lang=en")
-    prefs = {
-        "translate_whitelists": {"ar": "en"},
-        "translate": {"enabled": "true"}
-    }
-    options.add_experimental_option("prefs", prefs)
-    service = Service(executable_path='./chromedriver.exe')
-    return webdriver.Chrome(service=service, options=options)
+class CarrefourScraper(BaseCase):
+    def test_scrape_products(self):
+        # Open the website
+        self.open("https://www.carrefourksa.com/mafsau/en/c/FKSA1660000")
+        self.sleep(4)
+        # Accept cookies if the button is visible
+        if self.is_element_visible("#onetrust-accept-btn-handler"):
+            self.click("#onetrust-accept-btn-handler")
+            print("Accept button clicked.")
 
-
-def accept_cookies(driver):
-    wait = WebDriverWait(driver, 10)
-    try:
-        # accept_button = driver.find_element(By.ID, 'onetrust-accept-btn-handler')
-        accept_button =  wait.until(EC.visibility_of_element_located((By.ID, 'onetrust-accept-btn-handler')))
-        time.sleep(1)
-        accept_button.click()
-        print("Accept button clicked.")
-        time.sleep(1)
-    except:
-        pass
-
-
-def scroll_and_click_more(driver, actions, target_class):
-    try:
-        element = WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, target_class))
-        )
-        driver.execute_script("arguments[0].scrollIntoView();", element)
-        time.sleep(1)
-        element.click()
-        print(f"Button with class {target_class} found and clicked.")
-        return True
-    except Exception as e:
-        print(f"Error or button with class {target_class} not found: {e}")
-        return False
-
-
-def scrape_html(driver, filename):
-    element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CLASS_NAME, "css-14tfefh")))
-    elements_in_product_list = element.find_elements(By.XPATH, ".//*")
-    with open(filename, "w", encoding="utf-8") as file:
-        for elem in elements_in_product_list:
-            file.write(elem.get_attribute("outerHTML") + "\n")
-    print(f"HTML output saved to {filename}.")
-
-
-def main():
-    driver = setup_driver()
-    driver.get("https://www.carrefourksa.com/mafsau/en/c/FKSA1660000")
-    actions = ActionChains(driver)
-
-    accept_cookies(driver)
-
-    # Scroll and click loop
-    start_time = time.time()
-    target_class = "css-10s9ah"
-    max_duration = 480  # 8 minutes
-
-    while time.time() - start_time < max_duration:
-       try:
-            element = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CLASS_NAME, "css-14tfefh")))
-            
-            if element.find_elements(By.CLASS_NAME, target_class):
-                element_to_click = element.find_element(By.CLASS_NAME, target_class)
-                driver.execute_script("arguments[0].scrollIntoView();", element_to_click)
-                time.sleep(2)  # Consider using explicit wait instead of time.sleep
-                element_to_click.click()
-                print(f"Button with class {target_class} found and clicked.")
-                time.sleep(4)  # Consider using explicit wait instead of time.sleep
-            else:
-                break
-       except Exception as e:
-            print(f"Error or button with class {target_class} not found: {e}")
-        # loaded_new_content = scroll_and_click_more(driver, actions, target_class)
-        # if not loaded_new_content:
-        #     break
-
-    scrape_html(driver, "carrefourksa.txt")
-
-    # Execute additional logic from output3
-    Output3()
-
-    # Clean up
-    time.sleep(10)
-    driver.quit()
-
-
-if __name__ == "__main__":
-    main()
+        # Scroll and click the "More" button until it's no longer visible
+        target_class = "css-10s9ah"
+        start_time = time.time()
+        max_duration = 300 
+        error_cnt = 0
+        while time.time() - start_time < max_duration:
+            try:
+                self.wait_for_element_visible(".css-14tfefh")
+                # self.wait_for_element_visible(f".{target_class}")
+                
+                # if self.is_element_visible(f".{target_class}"):
+                if self.wait_for_element_visible(f".{target_class}"):
+                    self.scroll_to(f".{target_class}")
+                    self.sleep(2)
+                    self.click(f".{target_class}")
+                    print(f"Button with class {target_class} found and clicked.")
+                    self.sleep(4)
+                    self.wait_for_element_visible(".css-14tfefh")
+                    self.sleep(3)
+                else:
+                    break
+            except Exception as e:
+                error_cnt = error_cnt + 1
+                print(f"Error or button with class {target_class} not found: {e}") 
+                if error_cnt>5:
+                    print("Error count detected over 5 times.")
+                    break
+        # Scrape the product data
+        print("Time out....")
+        self.sleep(5)
+        filename= "carrefourksa.txt"
+        target_div = self.wait_for_element_visible("css selector", ".css-14tfefh")
+        elements_in_div = self.find_elements("css selector", ".css-14tfefh *")
+        self.sleep(2)
+        with open(filename, "w", encoding="utf-8") as file:
+            for element in elements_in_div:
+                file.write(element.get_attribute("outerHTML") + "\n")
+        print(f"HTML output saved to {filename}.")
+        self.sleep(1)
+        Output3()
+        self.sleep(5)
+        # self.quit()
+# if __name__ == "__main__":
+#     from seleniumbase import run
+#     run(CarrefourScraper)

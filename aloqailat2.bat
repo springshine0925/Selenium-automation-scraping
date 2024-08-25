@@ -1,1 +1,1 @@
-py script2-1.py --uc
+py script2.py --uc
