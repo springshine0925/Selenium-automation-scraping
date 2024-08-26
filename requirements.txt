@@ -1,9 +1,9 @@
 
 googletrans==4.0.0-rc1
-chardet
-beautifulsoup4
-selenium
-seleniumbase
+chardet ==  5.2.0 
+beautifulsoup4 == 4.12.3
+selenium ==  4.23.1
+seleniumbase ==  4.29.9
 
 
 

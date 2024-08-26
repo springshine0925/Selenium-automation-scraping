@@ -8,6 +8,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 import time
 from output import Output
+
 options = Options()
 options.add_experimental_option("detach", False)
 # options.add_argument("--headless")
@@ -53,12 +54,8 @@ while True:
 
 # If the element is no longer visible, continue scrolling down
 while True:
-    # Scroll down the page
-    # driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     actions = ActionChains(driver)
-    # Scroll down one page
     actions.send_keys(Keys.PAGE_DOWN).perform()
-    # Scroll to the bottom of the page
     actions.send_keys(Keys.END).perform()
 
     # Check if the target element reappears

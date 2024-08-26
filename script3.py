@@ -21,9 +21,6 @@ class CarrefourScraper(BaseCase):
         while time.time() - start_time < max_duration:
             try:
                 self.wait_for_element_visible(".css-14tfefh")
-                # self.wait_for_element_visible(f".{target_class}")
-                
-                # if self.is_element_visible(f".{target_class}"):
                 if self.wait_for_element_visible(f".{target_class}"):
                     self.scroll_to(f".{target_class}")
                     self.sleep(2)
@@ -54,7 +51,3 @@ class CarrefourScraper(BaseCase):
         self.sleep(1)
         Output3()
         self.sleep(5)
-        # self.quit()
-# if __name__ == "__main__":
-#     from seleniumbase import run
-#     run(CarrefourScraper)

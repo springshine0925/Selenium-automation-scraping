@@ -25,4 +25,3 @@ with SB(uc=True, test=True,  incognito=True, locale_code="en") as sb:
         sb.sleep(5)
     else:
         sb.post_message("Element not found", duration=3)
-    # sb.quit()

@@ -7,8 +7,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 import time
-from googletrans import Translator
-from bs4 import BeautifulSoup
 from output2 import Output2
 
 options = Options()
@@ -64,7 +62,6 @@ element = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "products-
 
 elements_in_product_list = element.find_elements(By.XPATH, ".//*")
 
-# translator = Translator()       
 with open("aloqailat-2.txt", "w", encoding="utf-8") as file:
     for element in elements_in_product_list:
         file.write(element.get_attribute("outerHTML") + "\n")
