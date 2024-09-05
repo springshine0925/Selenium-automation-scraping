@@ -4,6 +4,7 @@ import re
 import chardet
 from datetime import datetime, timedelta
 import os
+import time
 
 
 def Output3():
@@ -13,14 +14,15 @@ def Output3():
     with open('carrefourksa.txt', 'rb') as file:
         result = chardet.detect(file.read())
         encoding = result['encoding']
-
+    time.sleep(1)
     with open('carrefourksa.txt', 'r', encoding=encoding) as file:
         html_content = file.read()
-    
+    time.sleep(1)
     if html_content:
 
         # Parse the HTML content
         soup = BeautifulSoup(html_content, 'html.parser')
+        time.sleep(1)
         product_details = soup.find_all('div', {'class': 'css-b9nx4o'})
 
         # Process each product
